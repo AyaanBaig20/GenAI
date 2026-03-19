@@ -13,7 +13,8 @@ let userSchema = new mongoose.Schema({
     },
     password:{
         type:String,
-        required:[true,"email is required"]
+        required:[true,"email is required"],
+        select:false
     }
 })
 

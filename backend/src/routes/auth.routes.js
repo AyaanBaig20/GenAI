@@ -12,4 +12,7 @@ router.post("/signup",authController.signupController)
 // logout => auth/api/logout
 router.get("/logout",authController.logout)
 
+// Get me
+router.get("/get/me",authController.Getme)
+
 export default router

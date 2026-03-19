@@ -1,20 +1,24 @@
-import userModel from "../models/user.model.js"
-import bcrypt from "bcrypt"
-import jwt from "jsonwebtoken"
+import userModel from "../models/user.model.js";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
-// signup controller 
+// signup controller
 async function signupController(req, res) {
   let { username, email, password } = req.body;
 
   if (!username || !password || !email) {
-    return res.status(400).json({ message: "username or email or password cannot be empty" });
+    return res
+      .status(400)
+      .json({ message: "username or email or password cannot be empty" });
   }
 
   // check in DB
-  let isExist = await userModel.findOne({ $or: [{ email }, { username }] });
+  let isExist = await userModel.findOne({ $or: [{ email }, { username }] }).select("+password");
 
   if (isExist) {
-    return res.status(400).json({ message: "Username or email already exists" });
+    return res
+      .status(400)
+      .json({ message: "Username or email already exists" });
   }
 
   // hash password
@@ -28,7 +32,10 @@ async function signupController(req, res) {
   });
 
   // create token
-  let token = jwt.sign({ id: user._id ,username:user.username}, process.env.JWT_SECRET);
+  let token = jwt.sign(
+    { id: user._id, username: user.username },
+    process.env.JWT_SECRET,
+  );
 
   // set cookie
   res.cookie("token", token);
@@ -37,16 +44,18 @@ async function signupController(req, res) {
     message: "User registered successfully",
     user: { username: user.username, email: user.email },
   });
-} 
+}
 
-// login controller 
+// login controller
 async function loginController(req, res) {
-  let { email, password } = req.body;
-  if(!email || !password){
-    return res.status(400).json({message:"username and password required"})
+  try {
+    let { email, password } = req.body;
+  console.log(email,password)
+  if (!email || !password) {
+    return res.status(400).json({ message: "username and password required" });
   }
   // check user exist
-  let userexist = await userModel.findOne({ email });
+  let userexist = await userModel.findOne({ email }).select("+password");
 
   if (!userexist) {
     return res.status(400).json({ message: "User does not exist" });
@@ -60,7 +69,10 @@ async function loginController(req, res) {
   }
 
   // create token
-  let token = jwt.sign({ id: userexist._id ,username:userexist.username}, process.env.JWT_SECRET);
+  let token = jwt.sign(
+    { id: userexist._id, username: userexist.username },
+    process.env.JWT_SECRET,
+  );
 
   // set cookie
   res.cookie("token", token);
@@ -72,10 +84,28 @@ async function loginController(req, res) {
       email: userexist.email,
     },
   });
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 async function logout(req, res) {
   res.cookie("token", "");
-  return res.status(200).json({message: "User logged out successfully",});
+  return res.status(200).json({ message: "User logged out successfully" });
 }
-export default {loginController,signupController,logout}
+
+async function Getme(req, res) {
+  const token = req.cookies.token;
+
+  if (!token) {
+    return res.status(401).json({ message: "No token in cookies" });
+  }
+
+  // verify token
+  const decoded = jwt.verify(token, process.env.JWT_SECRET);
+  let user =await userModel.findById(decoded.id)
+
+  return res.json({message:"crr user",user:{username:user.username,email:user.email}})
+}
+
+export default { loginController, signupController, logout ,Getme};
