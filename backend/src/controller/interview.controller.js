@@ -1,6 +1,7 @@
 import { GenerateReport } from "../services/ai.services.js";
 import interviewReportModel from "../models/interviewReport.model.js";
 
+// generate interview
 async function GenerateInteriewReport(req, res) {
   try {
     const { resume, jobdescription, selfdescription = "" } = req.body;

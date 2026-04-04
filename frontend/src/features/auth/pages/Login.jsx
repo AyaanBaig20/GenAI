@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./Login.scss";
+import "./Login.css";
 import { Link } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import {useNavigate} from "react-router-dom"
@@ -27,7 +27,7 @@ const Login = () => {
       email: formData.email,
       password: formData.password,
     });
-    navigate("/")
+    navigate("/hero")
   };
   if (loading) {
     return (

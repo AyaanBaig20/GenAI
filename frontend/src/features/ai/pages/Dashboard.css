@@ -1,0 +1,156 @@
+.dash-wrap {
+          font-family: 'DM Mono', Arial, Helvetica, sans-serif;
+          background: black;
+          height: 100vh;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 2rem 1rem;
+        }
+
+        .dash-card {
+          width: 100%;
+          max-width: 700px;
+          background: #141414;
+          border: 0.5px solid #2a2a2a;
+          border-radius: 4px;
+          padding: 3rem 3rem 2.4rem;
+          position: relative;
+        }
+
+        .dash-card::before {
+          content: '';
+          position: absolute;
+          top: 0; left: 10%; right: 10%;
+          height: 1px;
+          background: linear-gradient(90deg, transparent, #a9884e, transparent);
+        }
+
+        .dash-eyebrow {
+          font-size: 10px;
+          letter-spacing: 0.3em;
+          color: #b8965a;
+          text-transform: uppercase;
+          text-align: center;
+          margin-bottom: 10px;
+        }
+
+        .dash-title {
+          font-family: 'Cormorant Garamond', Georgia, serif;
+          font-weight: 300;
+          font-size: 2.4rem;
+          text-align: center;
+          letter-spacing: 0.05em;
+          color: #ede6d5;
+          margin: 0 0 6px;
+          line-height: 1.15;
+        }
+
+        .dash-sub {
+          font-size: 10px;
+          color: #3d3d3d;
+          text-align: center;
+          letter-spacing: 0.18em;
+          margin-bottom: 2.6rem;
+        }
+
+        .dash-fields {
+          display: flex;
+          flex-direction: column;
+          gap: 1.2rem;
+          margin-bottom: 2.2rem;
+        }
+
+        .dash-label {
+          display: block;
+          font-size: 15px;
+          letter-spacing: 0.3em;
+          color: #b8965a;
+          text-transform: uppercase;
+          margin-bottom: 3px;
+        }
+
+        .dash-textarea {
+          width: 100%;
+          background: #0d0d0d;
+          border: 0.5px solid #2a2a2a;
+          border-radius: 2px;
+          font-family: 'DM Mono', monospace;
+          font-size: 12px;
+          line-height: 1.75;
+          padding: 12px 14px;
+          resize: vertical;
+          outline: none;
+          transition: border-color 0.2s;
+          color: white;
+        }
+
+        .dash-textarea::placeholder { color: rgba(245, 245, 245, 0.61) }
+        .dash-textarea:focus { border-color: #b8965a55; }
+
+        .dash-hint {
+          font-size: 9px;
+          color: #333;
+          letter-spacing: 0.12em;
+          margin-top: 8px;
+        }
+
+        .dash-divider {
+          height: 0.5px;
+          background: #222;
+          margin: 0 0 2rem;
+        }
+
+        .dash-actions {
+          display: flex;
+          gap: 12px;
+          justify-content: center;
+          flex-wrap: wrap;
+        }
+
+        .dash-btn {
+          font-family: 'DM Mono', monospace;
+          font-size: 10px;
+          letter-spacing: 0.2em;
+          text-transform: uppercase;
+          padding: 11px 28px;
+          border-radius: 2px;
+          cursor: pointer;
+          transition: all 0.2s ease;
+          min-width: 170px;
+        }
+
+        .dash-btn-outline {
+          background: transparent;
+          border: 0.5px solid #b8965a;
+          color: #b8965a;
+        }
+
+        .dash-btn-outline:hover { background: #b8965a56; }
+
+        .dash-btn-solid {
+          background: #b8965a;
+          border: 0.5px solid #b8965a;
+          color: #0f0f0f;
+        }
+
+        .dash-btn-solid:hover {
+          background: #d4ae726a;
+          border-color: #d4ae72;
+        }
+
+        .dash-trials {
+          font-size: 12px;
+          letter-spacing: 0.2em;
+          color: #333;
+          text-align: center;
+          margin-top: 1.4rem;
+        }
+
+        .dash-trials span { color: #b8965a88; }
+
+        @media (max-width: 540px) {
+          .dash-card { padding: 2rem 1.4rem; }
+          .dash-title { font-size: 1.9rem; }
+          .dash-btn { min-width: 100%; }
+        }

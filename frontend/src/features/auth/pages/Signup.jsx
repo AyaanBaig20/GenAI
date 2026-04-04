@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './Signup.scss';
+import './Signup.css';
 import {Link, useNavigate} from "react-router-dom"
 import { useAuth } from '../hooks/useAuth';
 
@@ -23,7 +23,7 @@ const Signup = () => {
   const handleSubmit = async(e) => {
     e.preventDefault();
     await handleSignup({username:formData.username,email:formData.email,password:formData.password})
-    navigate("/")
+    navigate("/hero")
   };
 
   return (
