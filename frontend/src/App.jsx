@@ -11,7 +11,6 @@ import {AiProvider} from "./features/ai/ai.context"
 // 
 import Hero from "./features/auth/pages/Hero"
 import FinalHome from "./features/auth/pages/FinalHome"
-
 function App() {
   return (
     <>
