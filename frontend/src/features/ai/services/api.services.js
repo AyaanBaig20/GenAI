@@ -12,3 +12,8 @@ export async function getReport() {
     return res.data
 } 
 
+// generate Resume
+export async function generateResume({interviewid}) {
+    let res =await axios.post("http://localhost:3000/api/resume/create",{interviewid},{withCredentials:true,responseType:"blob"})
+    return res.data
+}

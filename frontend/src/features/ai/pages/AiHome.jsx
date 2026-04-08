@@ -5,7 +5,7 @@ import { useAi } from "../hook/useai"
 
 
 // 🔥 Card Component
-const Card = ({ item }) => {
+const Card = ({ item,newResume }) => {
   const [techOpen, setTechOpen] = useState(false);
   const [behavOpen, setBehavOpen] = useState(false);
   const [roadmapOpen, setRoadmapOpen] = useState(false);
@@ -16,7 +16,11 @@ const Card = ({ item }) => {
       {/* Score */}
       <div className="score-row top">
         <p className="score-label">Match Score : {item?.matchScore}%</p>
-        <button>Generate Resume</button>
+        {item.resumeCreated ? 
+        (<button>Created</button>)
+         :(
+           <button onClick={()=>{newResume(item._id)}}>Generate Resume</button>
+        )}
       </div>
 
       {/* Skills Gap */}
@@ -117,23 +121,28 @@ const Card = ({ item }) => {
 
 // 🔥 Main Component
 export default function AiHome() {
-  let {report,getallreport} = useAi()
+  let {report,getallreport,newResume,loading} = useAi()
   useEffect(()=>{
     let call= async () => {
      await getallreport();
     }
     call()
-      console.log(report)
   },[])
   return (
-    <div className="main-page">
-      {report.length === 0 ? (
-        <p>No reports available</p>
-      ) : (
-        report.map((item, index) => (
-          <Card key={index} item={item} />
-        ))
-      )}
-    </div>
-  );
+  <div>
+    {loading ? (
+      <h1>Loading</h1>
+    ) : (
+      <div className="main-page">
+        {report.length === 0 ? (
+          <p>No reports available</p>
+        ) : (
+          report.map((item, index) => (
+            <Card key={index} item={item} newResume={newResume}/>
+          ))
+        )}
+      </div>
+    )}
+  </div>
+);
 }

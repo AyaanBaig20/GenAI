@@ -4,6 +4,7 @@ import interviewReportModel from "../models/interviewReport.model.js";
 async function GenerateRESUME(req, res) {
   try {
     const { interviewid } = req.body;
+    console.log(interviewid);
     if(!interviewid){
         return res.json({message:"interview Id is needed"})
     }
