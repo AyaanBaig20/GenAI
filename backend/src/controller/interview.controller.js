@@ -6,8 +6,8 @@ async function GenerateInteriewReport(req, res) {
   try {
     const { resume, jobdescription, selfdescription = "" } = req.body;
 
-    // ✅ Basic validation
-    if (!jobdescription || !resume) {
+    
+    if (!jobdescription || !resume ) {
       return res.status(400).json({ message: "Job description and Resume is required" });
     }
 

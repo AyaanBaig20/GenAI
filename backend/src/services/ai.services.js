@@ -23,7 +23,6 @@ const ReportSchema = z.object({
   ).length(5),
 });
 
-// ✅ Manually define the JSON schema instead of using zodToJsonSchema
 const responseSchema = {
   type: "object",
   properties: {
@@ -112,7 +111,7 @@ Generate:
     contents: prompt,
     config: {
       responseMimeType: "application/json",
-      responseSchema: responseSchema, // ✅ use responseSchema, not responseJsonSchema
+      responseSchema: responseSchema, 
     },
   });
 

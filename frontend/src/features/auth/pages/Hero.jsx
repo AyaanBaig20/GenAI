@@ -27,7 +27,9 @@ const Hero = () => {
         y: 40,
         opacity: 0
       }, "-=0.5")
-
+      .from(".sidebar-link",{
+        opacity:0,
+      })
       .from(".hero-header p", {
         y: 20,
         opacity: 0
@@ -81,10 +83,8 @@ const Hero = () => {
         <aside className="sidebar">
           <div className="sidebar-group">
             <Link to="/AllReport" className="sidebar-link">
-              <div className="sidebar-item">My Report</div>
+              <div className="sidebar-item">All Report</div>
             </Link>
-
-            <div className="sidebar-item">My Resume</div>
           </div>
         </aside>
 

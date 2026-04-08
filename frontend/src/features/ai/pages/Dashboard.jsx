@@ -76,11 +76,8 @@ const Dashboard = () => {
           </div>
 
           <div className="dash-actions">
-            <button className="dash-btn dash-btn-outline" onClick={submitREPORT}>
+            <button className="dash-btn dash-btn-solid" onClick={submitREPORT}>
               Generate Report
-            </button>
-            <button className="dash-btn dash-btn-solid">
-              Generate Resume
             </button>
           </div>
 

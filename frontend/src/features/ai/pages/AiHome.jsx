@@ -14,8 +14,9 @@ const Card = ({ item }) => {
     <div className="card">
 
       {/* Score */}
-      <div className="score-row">
+      <div className="score-row top">
         <p className="score-label">Match Score : {item?.matchScore}%</p>
+        <button>Generate Resume</button>
       </div>
 
       {/* Skills Gap */}

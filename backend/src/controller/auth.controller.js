@@ -53,7 +53,6 @@ async function signupController(req, res) {
 async function loginController(req, res) {
   try {
     let { email, password } = req.body;
-    console.log(email, password);
     if (!email || !password) {
       return res
         .status(400)
