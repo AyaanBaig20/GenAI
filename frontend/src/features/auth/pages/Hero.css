@@ -44,7 +44,20 @@
   color: var(--text-gray);
   font-size: 0.8rem;
 }
-
+.user-profile button{
+  background-color: white;
+  font-size: 1.1rem;
+  padding: 0.2rem;
+  border-radius: 0.2rem;
+  color: rgba(0, 0, 0, 0.732);
+}
+.user-profile button:hover{
+  background-color: red;
+  color: black;
+  cursor: pointer;
+  scale: 1.1;
+  transition: 0.3s ease-in-out;
+}
 .status-indicator {
   width: 8px;
   height: 8px;

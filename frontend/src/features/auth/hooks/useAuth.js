@@ -1,11 +1,9 @@
 import { useContext } from "react";
 import { authContext } from "../auth.context";
-import { Login, Signup, Logout,Getme } from "../services/auth.api";
+import { Login, Signup, Logout, Getme } from "../services/auth.api";
 import { useEffect } from "react";
 
-
 export const useAuth = () => {
-
   const context = useContext(authContext);
   let { user, setUser, loading, setLoading } = context;
 
@@ -41,7 +39,7 @@ export const useAuth = () => {
       } catch (err) {
         setUser(null);
       } finally {
-        setLoading(false); 
+        setLoading(false);
       }
     };
     getme();
