@@ -2,6 +2,7 @@ import userModel from "../models/user.model.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import interviewModel from "../models/interviewReport.model.js";
+import blacklistModel from "../models/blacklist.model.js";
 
 // signup controller
 async function signupController(req, res) {
@@ -94,7 +95,13 @@ async function loginController(req, res) {
 }
 
 async function logout(req, res) {
-  res.cookie("token", "");
+  let token = req.cookies.token
+  if(token){
+   await blacklistModel.create({
+      blacklistToken:token
+    })
+  }
+  res.clearCookie("token")
   return res.status(200).json({ message: "User logged out successfully" });
 }
 

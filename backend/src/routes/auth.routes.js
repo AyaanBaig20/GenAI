@@ -14,7 +14,7 @@ router.post("/signup",authController.signupController)
 router.get("/logout",authController.logout)
 
 // Get me
-router.get("/get/me",authController.Getme)
+router.get("/get/me",middleware.islogin,authController.Getme)
 
 router.get("/get/data",middleware.islogin,authController.getreportdata)
 
