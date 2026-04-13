@@ -1,14 +1,15 @@
 import authController from "../controller/auth.controller.js"
 import express from "express"
 import middleware from "../middleware/islogin.js"
+import limiter from "../rateLimit/ratelimit.js"
 
 let router  = express.Router()
 
 // Login api => auth/api/login
-router.post("/login",authController.loginController)
+router.post("/login",limiter.authlimiter,authController.loginController)
 
 // signup api => auth/api/signup
-router.post("/signup",authController.signupController)
+router.post("/signup",limiter.authlimiter,authController.signupController)
 
 // logout => auth/api/logout
 router.get("/logout",authController.logout)
@@ -16,7 +17,7 @@ router.get("/logout",authController.logout)
 // Get me
 router.get("/get/me",middleware.islogin,authController.Getme)
 
-router.get("/get/data",middleware.islogin,authController.getreportdata)
+router.get("/get/data",middleware.islogin,limiter.Reportdatalimiter,authController.getreportdata)
 
 
 export default router

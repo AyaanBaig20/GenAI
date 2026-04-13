@@ -1,7 +1,9 @@
 import express from "express"
-let router = express.Router()
 import ResumeController from "../controller/Resume.controller.js" 
+import limiter from "../rateLimit/ratelimit.js"
+import middleware from "../middleware/islogin.js"
 
-router.post("/create",ResumeController.GenerateRESUME)
+let router = express.Router()
+router.post("/create",middleware.islogin,limiter.Ailimiter,ResumeController.GenerateRESUME)
 
 export default router
