@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './Signup.css';
 import {Link, useNavigate} from "react-router-dom"
 import { useAuth } from '../hooks/useAuth';
+import {handlesuccess,handlefailure} from "../services/utils"
 
 const Signup = () => {
   let navigate = useNavigate()
@@ -22,8 +23,15 @@ const Signup = () => {
 
   const handleSubmit = async(e) => {
     e.preventDefault();
-    await handleSignup({username:formData.username,email:formData.email,password:formData.password})
-    navigate("/hero")
+    let res =await handleSignup({username:formData.username,email:formData.email,password:formData.password})
+    if (res.success) {
+      handlesuccess(res.message)
+      setTimeout(() => {
+            navigate("/hero")   
+      }, 2000);
+    }else{
+      handlefailure(res.message)
+    }
   };
 
   return (

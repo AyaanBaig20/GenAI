@@ -3,6 +3,7 @@ import "./Login.css";
 import { Link } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import {useNavigate} from "react-router-dom"
+import {handlesuccess,handlefailure} from "../services/utils"
 
 const Login = () => {
   let navigate = useNavigate()
@@ -23,20 +24,16 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await handleLogin({
-      email: formData.email,
-      password: formData.password,
-    });
-    navigate("/hero")
+    let res =await handleLogin({email: formData.email,password: formData.password,});
+    if(res.success){
+      handlesuccess(res.message)
+      setTimeout(() => {
+        navigate("/hero")
+      }, 3000);
+    }else{
+      handlefailure(res.message)
+    }
   };
-  if (loading) {
-    return (
-      <>
-        <h1>Loading</h1>
-      </>
-    );
-  }
-
   return (
     <div className="login-page">
       <div className="login-card">

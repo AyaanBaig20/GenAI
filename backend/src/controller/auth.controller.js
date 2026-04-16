@@ -10,8 +10,7 @@ async function signupController(req, res) {
 
   if (!username || !password || !email) {
     return res
-      .status(400)
-      .json({ message: "username or email or password cannot be empty" });
+      .json({ message: "username or email or password cannot be empty" ,success:false});
   }
 
   // check in DB
@@ -21,8 +20,7 @@ async function signupController(req, res) {
 
   if (isExist) {
     return res
-      .status(400)
-      .json({ message: "Username or email already exists" });
+      .json({ message: "Username or email already exists",success:false });
   }
 
   // hash password
@@ -47,6 +45,7 @@ async function signupController(req, res) {
   return res.status(201).json({
     message: "User registered successfully",
     user: { username: user.username, email: user.email },
+    success:true
   });
 }
 
@@ -56,21 +55,20 @@ async function loginController(req, res) {
     let { email, password } = req.body;
     if (!email || !password) {
       return res
-        .status(400)
-        .json({ message: "username and password required" });
+        .json({ message: "username and password required" ,success:false});
     }
     // check user exist
     let userexist = await userModel.findOne({ email }).select("+password");
 
     if (!userexist) {
-      return res.status(400).json({ message: "User does not exist" });
+      return res.json({ message: "User does not exist" ,success:false});
     }
 
     // match password
     let passwordMatch = await bcrypt.compare(password, userexist.password);
 
     if (!passwordMatch) {
-      return res.status(400).json({ message: "Password is wrong" });
+      return res.json({ message: "Password is wrong" ,success:false});
     }
 
     // create token
@@ -88,6 +86,7 @@ async function loginController(req, res) {
         username: userexist.username,
         email: userexist.email,
       },
+      success:true
     });
   } catch (error) {
     console.log(error);

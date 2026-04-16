@@ -11,13 +11,13 @@ export async function Signup({username,email,password}) {
 }
 
 // Login Service Api
-export async function Login({email,password}) {
-    try {
-        let res = await axios.post("http://localhost:3000/auth/api/login",{email,password},{withCredentials:true})
-         return res.data
-    } catch (error) {
-        console.log(error);
-    }
+export async function Login({ email, password }) {
+    let res = await axios.post(
+      "http://localhost:3000/auth/api/login",
+      { email, password },
+      { withCredentials: true }
+    );
+    return res.data;
 }
 
 // Logout Service Api

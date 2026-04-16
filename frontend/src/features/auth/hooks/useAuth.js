@@ -11,19 +11,29 @@ export const useAuth = () => {
     setLoading(true);
 
     let res = await Login({ email, password });
-
-    const userData = res.user;
-
-    setUser(userData);
-
-    console.log(userData);
-    setLoading(false);
+    console.log(res);
+    
+    if(res.success){
+      setUser(res.user);
+       setLoading(false);
+        return res
+    }else{
+      setLoading(false);
+      return res
+    }
   };
+
   const handleSignup = async ({ username, email, password }) => {
     setLoading(true);
     let res = await Signup({ username, email, password });
-    setUser(res.user);
+    if(res.success){
+      setUser(res.user);
     setLoading(false);
+    return res
+    }else{
+       setLoading(false);
+       return res
+    }
   };
   const handleLogout = async () => {
     setLoading(true);
