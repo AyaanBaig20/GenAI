@@ -4,10 +4,12 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import {useNavigate} from "react-router-dom"
 import {handlesuccess,handlefailure} from "../services/utils"
+import { useSelector } from "react-redux";
 
 const Login = () => {
+    const loading = useSelector((state) => state.auth.loading);
   let navigate = useNavigate()
-  const { loading, handleLogin } = useAuth();
+  const { handleLogin } = useAuth();
 
   const [formData, setFormData] = useState({
     email: "",
@@ -24,7 +26,7 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    let res =await handleLogin({email: formData.email,password: formData.password,});
+    let res =await handleLogin({email: formData.email,password: formData.password});
     if(res.success){
       handlesuccess(res.message)
       setTimeout(() => {
@@ -34,6 +36,7 @@ const Login = () => {
       handlefailure(res.message)
     }
   };
+ 
   return (
     <div className="login-page">
       <div className="login-card">
@@ -47,7 +50,7 @@ const Login = () => {
               name="email"
               value={formData.email}
               onChange={handleChange}
-              required
+              
               autoComplete="off"
             />
             <label className={formData.email ? "shrink" : ""}>

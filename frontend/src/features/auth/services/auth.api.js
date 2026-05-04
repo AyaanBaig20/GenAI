@@ -6,24 +6,24 @@ export async function Signup({username,email,password}) {
          let res =await axios.post("http://localhost:3000/auth/api/signup",{username,email,password},{withCredentials:true})
          return res.data
     } catch (error) {
-        console.log(error)
+        return error.response.data
     }
 }
 
 // Login Service Api
 export async function Login({ email, password }) {
-    let res = await axios.post(
-      "http://localhost:3000/auth/api/login",
-      { email, password },
-      { withCredentials: true }
-    );
-    return res.data;
+    try {
+        let res = await axios.post("http://localhost:3000/auth/api/login",{ email, password },{ withCredentials: true });
+        return res.data;
+    } catch (error) {
+        return error.response.data
+    }
 }
 
 // Logout Service Api
 export async function Logout() {
     try {
-        let res = await axios.post("http://localhost:3000/auth/api/logout",{withCredentials:true})
+        let res = await axios.get("http://localhost:3000/auth/api/logout",{withCredentials:true})
          return res.data
     } catch (error) {
         console.log(error);

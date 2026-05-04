@@ -20,4 +20,4 @@ app.use("/auth/api",authRouter)
 app.use("/interview/api",interviewRouter)
 app.use("/api/resume",resumeRouter)
 
-export default app
+  export default app

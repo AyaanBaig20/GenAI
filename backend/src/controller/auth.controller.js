@@ -54,21 +54,20 @@ async function loginController(req, res) {
   try {
     let { email, password } = req.body;
     if (!email || !password) {
-      return res
-        .json({ message: "username and password required" ,success:false});
+      return res.status(400).json({ message: "username and password required" ,success:false});
     }
     // check user exist
     let userexist = await userModel.findOne({ email }).select("+password");
 
     if (!userexist) {
-      return res.json({ message: "User does not exist" ,success:false});
+      return res.status(400).json({ message: "User does not exist" ,success:false});
     }
 
     // match password
     let passwordMatch = await bcrypt.compare(password, userexist.password);
 
     if (!passwordMatch) {
-      return res.json({ message: "Password is wrong" ,success:false});
+      return res.status(400).json({ message: "Password is wrong" ,success:false});
     }
 
     // create token

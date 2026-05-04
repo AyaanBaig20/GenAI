@@ -7,62 +7,62 @@ import {useAuth} from "../hooks/useAuth"
 const Hero = () => {
   const {handleLogout} =useAuth()
 
-  // useEffect(() => {
-  //   const ctx = gsap.context(() => {
+  useEffect(() => {
+    const ctx = gsap.context(() => {
 
-  //     const tl = gsap.timeline({
-  //       defaults: { ease: "power4.out", duration: 1 }
-  //     });
+      const tl = gsap.timeline({
+        defaults: { ease: "power4.out", duration: 1 }
+      });
 
-  //     // Navbar animation
-  //     tl.from(".logo", {
-  //       y: -30,
-  //       opacity: 0,
-  //       delay: 0.5
-  //     })
-  //     .from(".user-profile", {
-  //       y: -30,
-  //       opacity: 0
-  //     }, "-=0.7")
-  //     // Hero Content
-  //     .from(".hero-header h1", {
-  //       y: 40,
-  //       opacity: 0
-  //     }, "-=0.5")
-  //     .from(".sidebar-link",{
-  //       opacity:0,
-  //     })
-  //     .from(".hero-header p", {
-  //       y: 20,
-  //       opacity: 0
-  //     }, "-=0.7")
+      // Navbar animation
+      tl.from(".logo", {
+        y: -30,
+        opacity: 0,
+        delay: 0.5
+      })
+      .from(".user-profile", {
+        y: -30,
+        opacity: 0
+      }, "-=0.7")
+      // Hero Content
+      .from(".hero-header h1", {
+        y: 40,
+        opacity: 0
+      }, "-=0.5")
+      .from(".sidebar-link",{
+        opacity:0,
+      })
+      .from(".hero-header p", {
+        y: 20,
+        opacity: 0
+      }, "-=0.7")
 
-  //     // Stats cards
-  //     .from(".stat-card", {
-  //       y: 30,
-  //       opacity: 0,
-  //       stagger: 0.15
-  //     }, "-=0.6")
+      // Stats cards
+      .from(".stat-card", {
+        y: 30,
+        opacity: 0,
+        stagger: 0.15
+      }, "-=0.6")
 
-  //     // Buttons
-  //     .from(".action-row button", {
-  //       y: 20,
-  //       opacity: 0,
-  //       stagger: 0.1
-  //     }, "-=0.6")
+      // Buttons
+      .from(".action-row button", {
+        y: 20,
+        opacity: 0,
+        stagger: 0.1
+      }, "-=0.6")
 
-  //     // Decoration
-  //     .from(".glass-card-decoration", {
-  //       scale: 0.7,
-  //       opacity: 0,
-  //       duration: 1.5
-  //     }, "-=1");
+      // Decoration
+      .from(".glass-card-decoration", {
+        scale: 0.7,
+        opacity: 0,
+        duration: 1.5
+      }, "-=1");
       
 
-  //   });
+    });
 
-  //   return () => ctx.revert(); // cleanup
-  // }, []);
+    return () => ctx.revert(); // cleanup
+  }, []);
 
   return (
     <div className="hero-container">

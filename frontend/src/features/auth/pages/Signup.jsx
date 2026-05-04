@@ -3,10 +3,12 @@ import './Signup.css';
 import {Link, useNavigate} from "react-router-dom"
 import { useAuth } from '../hooks/useAuth';
 import {handlesuccess,handlefailure} from "../services/utils"
+import { useSelector } from 'react-redux';
 
 const Signup = () => {
+    const loading = useSelector((state) => state.auth.loading);
   let navigate = useNavigate()
-  let {handleSignup,loading} = useAuth()
+  let {handleSignup} = useAuth()
   const [formData, setFormData] = useState({
     username:"",
     email: '',

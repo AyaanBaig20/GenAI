@@ -1,58 +1,74 @@
-import { useContext } from "react";
-import { authContext } from "../auth.context";
 import { Login, Signup, Logout, Getme } from "../services/auth.api";
 import { useEffect } from "react";
+import { setLoading, setUser } from "../../redux/Slices/authSlices";
+import { useSelector, useDispatch } from "react-redux";
 
 export const useAuth = () => {
-  const context = useContext(authContext);
-  let { user, setUser, loading, setLoading } = context;
+  const user = useSelector((state) => state.auth.user);
+  const loading = useSelector((state) => state.auth.loading);
+  const dispatch = useDispatch();
 
   const handleLogin = async ({ email, password }) => {
-    setLoading(true);
+    dispatch(setLoading(true));
+    try {
+      const res = await Login({ email, password });
 
-    let res = await Login({ email, password });
-    console.log(res);
-    
-    if(res.success){
-      setUser(res.user);
-       setLoading(false);
-        return res
-    }else{
-      setLoading(false);
-      return res
+      if (res.success) {
+        dispatch(setUser(res.user));
+      }
+
+      return res;
+    } catch (err) {
+      return { success: false, message: "Login failed" };
+    } finally {
+      dispatch(setLoading(false));
     }
   };
 
   const handleSignup = async ({ username, email, password }) => {
-    setLoading(true);
-    let res = await Signup({ username, email, password });
-    if(res.success){
-      setUser(res.user);
-    setLoading(false);
-    return res
-    }else{
-       setLoading(false);
-       return res
+    dispatch(setLoading(true));
+    try {
+      const res = await Signup({ username, email, password });
+
+      if (res.success) {
+        dispatch(setUser(res.user));
+      }
+
+      return res;
+    } catch (err) {
+      return { success: false, message: "Signup failed" };
+    } finally {
+      dispatch(setLoading(false));
     }
   };
+
   const handleLogout = async () => {
-    setLoading(true);
-    let res = await Logout();
-    setUser(null);
-    setLoading(false);
+    dispatch(setLoading(true));
+    try {
+      const res = await Logout();
+      dispatch(setUser(null));
+      return res;
+    } catch (err) {
+      return { success: false };
+    } finally {
+      dispatch(setLoading(false));
+    }
   };
+
   useEffect(() => {
-    let getme = async () => {
+    const getme = async () => {
       try {
-        let res = await Getme();
-        setUser(res.user);
-      } catch (err) {
-        setUser(null);
+        const res = await Getme();
+        dispatch(setUser(res.user));
+      } catch {
+        dispatch(setUser(null));
       } finally {
-        setLoading(false);
+        dispatch(setLoading(false));
       }
     };
+
     getme();
   }, []);
-  return { user, loading, handleLogin, handleLogout, handleSignup };
+
+  return { handleLogin, handleLogout, handleSignup };
 };

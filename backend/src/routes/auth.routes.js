@@ -6,10 +6,10 @@ import limiter from "../rateLimit/ratelimit.js"
 let router  = express.Router()
 
 // Login api => auth/api/login
-router.post("/login",limiter.authlimiter,authController.loginController)
+router.post("/login",authController.loginController)
 
 // signup api => auth/api/signup
-router.post("/signup",limiter.authlimiter,authController.signupController)
+router.post("/signup",authController.signupController)
 
 // logout => auth/api/logout
 router.get("/logout",authController.logout)
