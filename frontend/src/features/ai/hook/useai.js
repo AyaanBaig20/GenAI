@@ -1,66 +1,98 @@
-import { useContext } from "react"
-import {generateReport,getReport,generateResume} from "../services/api.services"
-import {AiContext} from "../ai.context"
+import {generateReport,getReport,generateResume,} from "../services/api.services";
+import { setLoading, setReport } from "../../redux/Slices/aiSlices";
+import { useDispatch } from "react-redux";
 
+export const useAi = () => {
+  const dispatch = useDispatch();
 
-export const useAi=()=>{
-    const context = useContext(AiContext)
-    const {loading,setLoading,report,setReport}  = context
+  //  Generate new report
+  const newReport = async ({ resume, jobdescription, selfdescription }) => {
+    dispatch(setLoading(true));
+    try {
+      const response = await generateReport({
+        resume,
+        jobdescription,
+        selfdescription,
+      });
 
-    // hook to generate new report
-    const newReport = async ({resume,jobdescription,selfdescription}) => {
-            setLoading(true)
-            try {
-                let response = await generateReport({resume,jobdescription,selfdescription})
-                setLoading(false)
-            } catch (error) {
-                console.log(error);
-            }
+      return {
+        success: true,
+      };
+    } catch (error) {
+      return {
+        success: false,
+        message:"Failed to generate report",
+      };
+    } finally {
+      dispatch(setLoading(false));
     }
+  };
 
-    // hook to get all report
-    const getallreport = async()=>{
-        setLoading(true)
-        try {
-            let response = await getReport()
-            setReport(response.report)
-            setLoading(false)
-        } catch (error) {
-            console.log(error);
-        }
+  //  Get all reports
+  const getallreport = async () => {
+    dispatch(setLoading(true));
+    try {
+      const response = await getReport();
+
+      dispatch(setReport(response?.report || []));
+
+      return {
+        success: true,
+      };
+    } catch (error) {
+      dispatch(setReport([]));
+
+      return {
+        success: false,
+        message: "Failed to fetch reports",
+      };
+    } finally {
+      dispatch(setLoading(false));
     }
+  };
 
-    // hook to generate resume
-const newResume = async (interviewid) => {
-  setLoading(true);
+  //  Generate Resume (PDF download)
+  const newResume = async (interviewid) => {
+    dispatch(setLoading(true));
 
-  try {
-    const response = await generateResume({interviewid});
+    try {
+      const response = await generateResume({ interviewid });
 
-    // Create blob URL
-    const url = window.URL.createObjectURL(
-      new Blob([response], { type: "application/pdf" })
-    );
+      // Create PDF blob
+      const blob = new Blob([response], {
+        type: "application/pdf",
+      });
 
-    // Create link
-    const link = document.createElement("a");
-    link.href = url;
-    link.setAttribute("download", "Resume.pdf");
+      const url = window.URL.createObjectURL(blob);
 
-    document.body.appendChild(link);
-    link.click();
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "Resume.pdf";
 
-    // Cleanup
-    link.remove();
-    window.URL.revokeObjectURL(url);
+      document.body.appendChild(link);
+      link.click();
 
-     await getallreport();
+      // Cleanup
+      link.remove();
+      window.URL.revokeObjectURL(url);
 
-  } catch (error) {
-    console.log(error);
-  } finally {
-    setLoading(false);
-  }
+      // Refresh reports
+      await getallreport();
+
+      return { success: true };
+    } catch (error) {
+      return {
+        success: false,
+        message: "Failed to generate resume",
+      };
+    } finally {
+      dispatch(setLoading(false));
+    }
+  };
+
+  return {
+    newReport,
+    getallreport,
+    newResume,
+  };
 };
-    return {loading,report,newReport,getallreport,newResume}
-}

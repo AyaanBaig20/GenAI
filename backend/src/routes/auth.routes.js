@@ -17,7 +17,7 @@ router.get("/logout",authController.logout)
 // Get me
 router.get("/get/me",middleware.islogin,authController.Getme)
 
-router.get("/get/data",middleware.islogin,limiter.Reportdatalimiter,authController.getreportdata)
+router.get("/get/data",middleware.islogin,authController.getreportdata)
 
 
 export default router

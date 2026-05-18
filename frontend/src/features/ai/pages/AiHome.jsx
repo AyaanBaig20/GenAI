@@ -2,6 +2,7 @@ import { useState } from "react";
 import "./AiHome.css";
 import { useEffect } from "react";
 import { useAi } from "../hook/useai"
+import { useSelector } from "react-redux";
 
 
 // 🔥 Card Component
@@ -121,7 +122,9 @@ const Card = ({ item,newResume }) => {
 
 // 🔥 Main Component
 export default function AiHome() {
-  let {report,getallreport,newResume,loading} = useAi()
+  let {getallreport,newResume} = useAi()
+  let report = useSelector((state)=>state.ai.report)
+  let loading = useSelector((state)=>state.ai.loading)
   useEffect(()=>{
     let call= async () => {
      await getallreport();

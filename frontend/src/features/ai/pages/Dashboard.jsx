@@ -1,12 +1,14 @@
 import { useState } from "react";
 import "./Dashboard.css";
-import {useAi} from "../hook/useai.js"
-import {useNavigate} from "react-router-dom"
+import { useAi } from "../hook/useai.js";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const Dashboard = () => {
-  let navigate = useNavigate()
-  let {loading,newReport} = useAi()
-  
+  let loading = useSelector((state) => state.ai.loading);
+  let navigate = useNavigate();
+  let { newReport } = useAi();
+
   const [formData, setFormData] = useState({
     resume: "",
     jobdescription: "",
@@ -21,22 +23,36 @@ const Dashboard = () => {
     }));
   };
 
-  const submitREPORT=async()=>{
-        if(loading) return 
-    try {
-       await newReport({resume:formData.resume,jobdescription:formData.jobdescription,selfdescription:  formData.selfdescription})
-    navigate("/AllReport")
-    } catch (error) {
-      console.log(error)
+  const submitREPORT = async () => {
+    if (loading) return;
+
+    if (
+      !formData.resume ||
+      !formData.jobdescription ||
+      !formData.selfdescription
+    ) {
+      alert("All fields are required");
+      return;
     }
-  }
+
+    try {
+      const res = await newReport(formData);
+
+      if (res?.success) {
+        navigate("/AllReport");
+      } else {
+        alert(res?.message || "Failed to generate report");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <>
       <div className="dash-wrap">
         <div className="dash-card">
           <h1 className="dash-title">Resume Intelligence</h1> <br />
-
           <div className="dash-fields">
             <div>
               <label className="dash-label">Job Description</label>
@@ -74,13 +90,11 @@ const Dashboard = () => {
               />
             </div>
           </div>
-
           <div className="dash-actions">
             <button className="dash-btn dash-btn-solid" onClick={submitREPORT}>
               Generate Report
             </button>
           </div>
-
           <p className="dash-trials">
             <span>3 trials per account</span>
           </p>
